@@ -52,6 +52,11 @@ RUN mkdir /var/run/sshd &&\
     echo 'root:root' | chpasswd
 EXPOSE 22
 COPY config/etc/ssh/sshd_config.d /etc/ssh/sshd_config.d
+COPY --chown=root:root .ssh/*.pub /root/.ssh/authorized_keys.d/
+RUN mkdir -p /root/.ssh && \
+    cat /root/.ssh/authorized_keys.d/*.pub > /root/.ssh/authorized_keys && \
+    chmod 700 /root/.ssh && \
+    chmod 600 /root/.ssh/authorized_keys
 
 # bashではなくsystemdを起動(/tmpの初期化実行)
 CMD ["/sbin/init"]
