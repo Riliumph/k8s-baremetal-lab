@@ -42,6 +42,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
     wget \
     # IaC`
     ansible \
+    sshpass \
     && apt-get clean\
     && rm -rf /var/lib/apt/lists/*
 
