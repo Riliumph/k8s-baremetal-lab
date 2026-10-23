@@ -1,0 +1,14 @@
+# Draw.io
+*.bkp
+*.dtmp
+
+# log
+*.log
+
+# devcontainer
+*-lock.json
+
+# terraform
+.terraform/
+*.hcl
+moved.tf
