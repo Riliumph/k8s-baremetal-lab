@@ -51,6 +51,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN mkdir /var/run/sshd &&\
     echo 'root:root' | chpasswd
 EXPOSE 22
+COPY config/etc/ssh/sshd_config.d /etc/ssh/sshd_config.d
 
 # bashではなくsystemdを起動(/tmpの初期化実行)
 CMD ["/sbin/init"]
