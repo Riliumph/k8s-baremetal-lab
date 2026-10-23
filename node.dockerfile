@@ -31,6 +31,8 @@ RUN apt-get -qq update && \
     gnupg \
     apt-transport-https \
     locales \
+    # ansible
+    openssh-server \
     && apt-get clean\
     && rm -rf /var/lib/apt/lists/*
 
@@ -43,6 +45,12 @@ RUN sed -i -e 's/# ja_JP.UTF-8 UTF-8/ja_JP.UTF-8 UTF-8/' /etc/locale.gen \
     && locale-gen \
     && ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && echo $TZ > /etc/timezone
+
+# ansible標準はsshでの接続
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+RUN mkdir /var/run/sshd &&\
+    echo 'root:root' | chpasswd
+EXPOSE 22
 
 # bashではなくsystemdを起動(/tmpの初期化実行)
 CMD ["/sbin/init"]
