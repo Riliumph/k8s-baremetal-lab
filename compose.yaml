@@ -1,0 +1,58 @@
+services:
+  k8s-master:
+    build:
+      dockerfile: node.dockerfile
+    container_name: k8s-control-plane
+    hostname: k8s-control-plane
+    privileged: true
+    tty: true
+    stdin_open: true
+    volumes:
+      - type: bind
+        source: ./tmp/overlayfs/control_plane
+        target: /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs
+      - type: bind
+        source: ./config/etc/ssh/sshd_config.d
+        target: /etc/ssh/sshd_config.d
+    networks:
+      k8s-net:
+        ipv4_address: 172.20.0.10
+
+  k8s-worker1:
+    build:
+      dockerfile: node.dockerfile
+    container_name: k8s-worker1
+    hostname: k8s-worker1
+    privileged: true
+    tty: true
+    stdin_open: true
+    volumes:
+      - type: bind
+        source: ./tmp/overlayfs/worker1
+        target: /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs
+    networks:
+      k8s-net:
+        ipv4_address: 172.20.0.11
+
+  k8s-worker2:
+    build:
+      dockerfile: node.dockerfile
+    container_name: k8s-worker2
+    hostname: k8s-worker2
+    privileged: true
+    tty: true
+    stdin_open: true
+    volumes:
+      - type: bind
+        source: ./tmp/overlayfs/worker2
+        target: /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs
+    networks:
+      k8s-net:
+        ipv4_address: 172.20.0.12
+
+networks:
+  k8s-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
