@@ -27,6 +27,7 @@
 				"ms-azuretools.vscode-docker",
 				"ms-kubernetes-tools.vscode-kubernetes-tools",
 				"streetsidesoftware.code-spell-checker",
+				"redhat.ansible",
 				"exiasr.hadolint",
 				"ionutvmi.path-autocomplete",
 				"shardulm94.trailing-spaces",

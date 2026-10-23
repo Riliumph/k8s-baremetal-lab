@@ -11,9 +11,6 @@ services:
       - type: bind
         source: ./tmp/overlayfs/control_plane
         target: /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs
-      - type: bind
-        source: ./config/etc/ssh/sshd_config.d
-        target: /etc/ssh/sshd_config.d
     networks:
       k8s-net:
         ipv4_address: 172.20.0.10

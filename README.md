@@ -5,7 +5,7 @@
 `ansible`が接続できるように、各コンテナは`ssh`サーバー機能を有効にしている。  
 
 ```console
-$ ssh root@172.20.0.10
+$ ssh -i .ssh/ansible-ssh-key root@172.20.0.10
 ```
 
 `known_hosts`にサーバーの公開鍵を保存したくない場合は以下
@@ -22,7 +22,7 @@ $ ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@172.20.0.
 その際、　鍵検証のチャレンジレスポンスで以下のようなエラーが発生することがある。
 
 ```text
-$ ssh root@172.20.0.10
+$ ssh -i .ssh/ansible-ssh-key root@172.20.0.10
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -40,8 +40,17 @@ Host key for 172.20.0.10 has changed and you have requested strict checking.
 Host key verification failed.
 ```
 
-既存のホスト鍵情報を削除して再接続すること。
+既存のホスト鍵情報を削除して再登録すること。
 
 ```console
 $ ssh-keygen -f "$HOME/.ssh/known_hosts" -R "172.20.0.10"
+$ ssh-keyscan -H 172.20.0.10 >> ~/.ssh/known_hosts
+```
+
+## 疎通確認
+
+sshサーバーへの疎通確認は以下で行う。
+
+```console
+$ ansible all -i inventory.yaml -u root --private-key .ssh/ansible-ssh-key -m raw -a "echo OK"
 ```
