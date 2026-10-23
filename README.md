@@ -46,3 +46,11 @@ Host key verification failed.
 $ ssh-keygen -f "$HOME/.ssh/known_hosts" -R "172.20.0.10"
 $ ssh-keyscan -H 172.20.0.10 >> ~/.ssh/known_hosts
 ```
+
+## 疎通確認
+
+sshサーバーへの疎通確認は以下で行う。
+
+```console
+$ ansible all -i inventory.yaml -u root --private-key .ssh/ansible-ssh-key -m raw -a "echo OK"
+```
