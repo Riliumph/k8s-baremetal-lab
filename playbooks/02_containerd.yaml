@@ -1,0 +1,28 @@
+---
+- hosts: all
+  become: true
+
+  tasks:
+    - name: install containerd
+      apt:
+        name: containerd
+        state: present
+
+    - name: generate config
+      command: containerd config default
+      register: containerd_config
+      changed_when: false
+
+    - name: deploy config
+      copy:
+        src: {{playbook_dir}}/../config/etc/containerd/config.toml
+        dest: /etc/containerd/config.toml
+        owner: root
+        group: root
+        mode: "0644"
+
+    - name: start containerd
+      systemd:
+        name: containerd
+        state: started
+        enabled: true
