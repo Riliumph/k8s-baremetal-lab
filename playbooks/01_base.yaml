@@ -18,3 +18,15 @@
       community.general.modprobe:
         name: br_netfilter
         state: present
+    - name: enable ip_forward
+      sysctl:
+        name: net.ipv4.ip_forward
+        value: "1"
+        state: present
+        reload: true
+    - name: enable bridge-nf-call-iptables
+      ansible.posix.sysctl:
+        name: net.bridge.bridge-nf-call-iptables
+        value: "1"
+        state: present
+        reload: true
