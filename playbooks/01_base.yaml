@@ -1,0 +1,16 @@
+---
+- hosts: all
+  become: true
+
+  tasks:
+    - name: disable swap
+      command: swapoff -a
+      changed_when: false
+    # - name: deploy hosts
+    #   copy:
+    #     dest: /etc/hosts
+    #     content: |
+    #       127.0.0.1 localhost
+    #       172.20.0.10 control-plane
+    #       172.20.0.11 worker1
+    #       172.20.0.12 worker2
