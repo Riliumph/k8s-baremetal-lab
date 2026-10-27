@@ -1,0 +1,30 @@
+#!/bin/bash
+set -euo pipefail
+
+usage() {
+cat <<EOF
+Usage:
+  $(basename "$0") <host> [host...]
+
+Examples:
+  $(basename "$0") 172.20.0.10
+  $(basename "$0") 172.20.0.10 172.20.0.11 172.20.0.12
+
+Description:
+  Remove old SSH host keys from known_hosts and register new keys.
+EOF
+}
+
+[[ "${1:-}" == "-h" || "${1:-}" == "--help" ]] && {
+    usage
+    exit 0
+}
+# 冪等性確保のためファイル不存在をケア
+mkdir -p ~/.ssh
+touch ~/.ssh/known_hosts
+
+for host in "$@"; do
+    echo "Updating host key: $host"
+    ssh-keygen -f ~/.ssh/known_hosts -R "$host" >/dev/null 2>&1 || true
+    ssh-keyscan -H "$host" >> ~/.ssh/known_hosts
+done
