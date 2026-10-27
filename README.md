@@ -44,8 +44,11 @@ Host key verification failed.
 
 ```console
 $ ssh-keygen -f "$HOME/.ssh/known_hosts" -R "172.20.0.10"
-$ ssh-keyscan -H 172.20.0.10 >> ~/.ssh/known_hosts
+$ ssh-keyscan 172.20.0.10 >> ~/.ssh/known_hosts
 ```
+
+> `ssh-keyscan`は`ssh-keyscan -H ...`としてハッシュ化した方がよい。  
+> 今は練習環境なのでわかりやすさを重視してハッシュ化しない方法を取る。
 
 ## 疎通確認
 
