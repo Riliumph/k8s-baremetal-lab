@@ -4,17 +4,17 @@
   become: true
 
   tasks:
-    - name: install containerd
+    - name: Install containerd
       apt:
         name: containerd
         state: present
 
-    - name: generate config
+    - name: Generate config
       command: containerd config default
       register: containerd_config
       changed_when: false
 
-    - name: deploy config
+    - name: Deploy config
       copy:
         src: "{{playbook_dir}}/../config/etc/containerd/config.toml"
         dest: /etc/containerd/config.toml
@@ -22,7 +22,7 @@
         group: root
         mode: "0644"
 
-    - name: start containerd
+    - name: Start containerd
       systemd:
         name: containerd
         state: started

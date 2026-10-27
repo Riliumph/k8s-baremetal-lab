@@ -4,7 +4,7 @@
   become: true
 
   tasks:
-    - name: disable swap
+    - name: Disable swap
       command: swapoff -a
       changed_when: false
     # - name: deploy hosts
@@ -15,17 +15,17 @@
     #       172.20.0.10 control-plane
     #       172.20.0.11 worker1
     #       172.20.0.12 worker2
-    - name: load br_netfilter
+    - name: Load br_netfilter
       community.general.modprobe:
         name: br_netfilter
         state: present
-    - name: enable ip_forward
+    - name: Enable ip_forward
       sysctl:
         name: net.ipv4.ip_forward
         value: "1"
         state: present
         reload: true
-    - name: enable bridge-nf-call-iptables
+    - name: Enable bridge-nf-call-iptables
       ansible.posix.sysctl:
         name: net.bridge.bridge-nf-call-iptables
         value: "1"
