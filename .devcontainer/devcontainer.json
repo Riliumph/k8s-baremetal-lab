@@ -19,7 +19,7 @@
 		8080
 	],
 	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "echo 'source /workspaces/tools/aws_login.bash' >> ~/.bashrc",
+	"postCreateCommand": "ansible-galaxy collection install -r .devcontainer/galaxy-requirements.txt",
 	// Configure tool-specific properties.
 	"customizations": {
 		"vscode": {
