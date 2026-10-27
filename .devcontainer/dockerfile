@@ -18,6 +18,8 @@ RUN curl -fsSL "${HADOLINT_URL}" -o hadolint && \
 # pip
 RUN pip completion --bash > ${COMPD}/pip
 COPY requirements.txt /tmp/requirements.txt
+# pip --break-system-packagesは/usr/local/binに実行バイナリをインストールする。
+# また、/usr/local/lib/python3.11配下にも依存ライブラリをインストールする。
 RUN pip install -q --no-cache-dir --break-system-packages -r /tmp/requirements.txt
 
 # diff-highlight
@@ -67,3 +69,4 @@ RUN sed -i -e 's/# ja_JP.UTF-8 UTF-8/ja_JP.UTF-8 UTF-8/' /etc/locale.gen \
 # tools
 COPY --from=toolchain /usr/local/bin /usr/local/bin
 COPY --from=toolchain /etc/bash_completion.d /etc/bash_completion.d
+COPY --from=toolchain /usr/local/lib/python3.11 /usr/local/lib/python3.11

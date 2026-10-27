@@ -43,8 +43,7 @@ Host key verification failed.
 既存のホスト鍵情報を削除して再登録すること。
 
 ```console
-$ ssh-keygen -f "$HOME/.ssh/known_hosts" -R "172.20.0.10"
-$ ssh-keyscan 172.20.0.10 >> ~/.ssh/known_hosts
+$ ./tools/update-known-hosts 172.20.0.10 172.20.0.11 172.20.0.12
 ```
 
 > `ssh-keyscan`は`ssh-keyscan -H ...`としてハッシュ化した方がよい。  
