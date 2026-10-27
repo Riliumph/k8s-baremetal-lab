@@ -5,7 +5,7 @@
 
   tasks:
     - name: Disable swap
-      command: swapoff -a
+      ansible.builtin.command: swapoff -a
       changed_when: false
     # - name: deploy hosts
     #   copy:
@@ -20,7 +20,7 @@
         name: br_netfilter
         state: present
     - name: Enable ip_forward
-      sysctl:
+      ansible.posix.sysctl:
         name: net.ipv4.ip_forward
         value: "1"
         state: present
