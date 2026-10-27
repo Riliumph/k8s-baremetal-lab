@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: Install and configure contained
+  hosts: all
   become: true
 
   tasks:
