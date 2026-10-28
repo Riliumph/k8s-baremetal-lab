@@ -59,5 +59,8 @@ RUN mkdir -p /root/.ssh && \
     chmod 700 /root/.ssh && \
     chmod 600 /root/.ssh/authorized_keys
 
+# config
+COPY config/config_map /etc/kubernetes/config_map
+
 # bashではなくsystemdを起動(/tmpの初期化実行)
 CMD ["/sbin/init"]

@@ -1,0 +1,35 @@
+# kubeadm init実行後に実行可能
+---
+- name: Install and configure kubeadm
+  hosts: k8s_master
+  become: true
+
+  vars:
+    kubeadm_config_dir: /root/.kube
+    kubeadm_configure: "{{ k8s_config_dir }}"
+
+  tasks:
+    - name: Init kubeadm
+      ansible.builtin.command: >
+        cmd: kubeadm init --config=/etc/kubernetes/config_map/kubeadm-config.yaml
+      args:
+        creates: /etc/kubernetes/admin.conf
+
+    - name: Check admin.conf
+      ansible.builtin.stat:
+        path: /etc/kubernetes/admin.conf
+      register: admin_conf
+
+    - name: Create .kube
+      ansible.builtin.file:
+        path: "{{ kubeadm_config_dir }}"
+        state: directory
+        mode: "0700"
+
+    - name: Copy admin.conf
+      ansible.builtin.copy:
+        src: /etc/kubernetes/admin.conf
+        dest: "{{ kubeadm_config_dir }}/config"
+        remote_src: true
+        mode: "0600"
+      when: admin_conf.stat.exists
