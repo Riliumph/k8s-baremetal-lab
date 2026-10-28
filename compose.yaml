@@ -8,8 +8,8 @@ services:
     tty: true
     stdin_open: true
     volumes:
-      - type: bind
-        source: ./tmp/overlayfs/control_plane
+      - type: volume
+        source: k8s_master_volume
         target: /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs
     networks:
       k8s-net:
@@ -24,8 +24,8 @@ services:
     tty: true
     stdin_open: true
     volumes:
-      - type: bind
-        source: ./tmp/overlayfs/worker1
+      - type: volume
+        source: k8s_worker1_volume
         target: /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs
     networks:
       k8s-net:
@@ -40,8 +40,8 @@ services:
     tty: true
     stdin_open: true
     volumes:
-      - type: bind
-        source: ./tmp/overlayfs/worker2
+      - type: volume
+        source: k8s_worker2_volume
         target: /var/lib/containerd/io.containerd.snapshotter.v1.overlayfs
     networks:
       k8s-net:
@@ -53,3 +53,8 @@ networks:
     ipam:
       config:
         - subnet: 172.20.0.0/24
+
+volumes:
+  k8s_master_volume:
+  k8s_worker1_volume:
+  k8s_worker2_volume:
