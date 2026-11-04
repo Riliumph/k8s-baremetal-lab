@@ -1,0 +1,16 @@
+---
+- name: Deploy nginx
+  hosts: k8s_master
+  become: true
+
+  tasks:
+    - name: Copy manifest
+      ansible.builtin.copy:
+        src: ../config/nginx.yaml
+        dest: /etc/kubernetes/nginx.yaml
+        mode: "0644"
+
+    - name: Apply manifest
+      ansible.builtin.command:
+        cmd: kubectl apply -f /etc/kubernetes/nginx.yaml
+      changed_when: false
