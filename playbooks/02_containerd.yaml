@@ -1,0 +1,29 @@
+---
+- name: Install and configure contained
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Install containerd
+      ansible.builtin.apt:
+        name: containerd
+        state: present
+
+    - name: Generate config
+      ansible.builtin.command: containerd config default
+      register: containerd_config
+      changed_when: false
+
+    - name: Deploy config
+      ansible.builtin.copy:
+        src: "{{ playbook_dir }}/../config/etc/containerd/config.toml"
+        dest: /etc/containerd/config.toml
+        owner: root
+        group: root
+        mode: "0644"
+
+    - name: Start containerd
+      ansible.builtin.systemd:
+        name: containerd
+        state: started
+        enabled: true
