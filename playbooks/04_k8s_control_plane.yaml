@@ -7,6 +7,8 @@
   vars:
     kubeadm_config_dir: /root/.kube
     kubeadm_configure: "{{ k8s_config_dir }}"
+    cni_url: https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+    dns_configure : /etc/kubernetes/config_map/coredns.yaml
 
   tasks:
     - name: Init kubeadm
@@ -36,3 +38,13 @@
         remote_src: true
         mode: "0600"
       when: admin_conf.stat.exists
+
+    - name: Create CNI
+      ansible.builtin.command:
+        cmd: kubectl apply -f "{{ cni_url }}"
+      changed_when: false
+
+    - name: Settings DNS
+      ansible.builtin.command:
+        cmd: kubectl apply -f "{{ dns_configure }}"
+      changed_when: false
