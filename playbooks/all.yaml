@@ -1,0 +1,6 @@
+---
+- import_playbook: 01_base.yaml
+- import_playbook: 02_containerd.yaml
+- import_playbook: 03_k8s.yaml
+- import_playbook: 04_k8s_control_plane.yaml
+- import_playbook: 05_join_worker_node.yaml
